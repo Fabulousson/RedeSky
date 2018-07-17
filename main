@@ -1,0 +1,90 @@
+package br.fabulousson.main;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
+import org.bukkit.Bukkit;
+import org.bukkit.plugin.java.JavaPlugin;
+
+import chat.Contacts;
+import chat.Format;
+import chat.JoinEvents;
+import chat.JoinMessage;
+import chat.QuitEvents;
+import cycles.WithoutRain;
+import events.BlockBreakEvents;
+import events.EntityDamageEvent;
+import events.FoodLevelChangeEvent;
+import events.HealthScale;
+import events.PlayerCommandPreprocessEvent;
+import groups.EventsGroups;
+import menus.ServerSelector;
+import money.commandsMoney;
+import z.auth.CommandChangePassword;
+import z.auth.CommandLogin;
+import z.auth.CommandRegister;
+import z.auth.Events;
+
+public class Main extends JavaPlugin {
+
+	private static Main instance;
+
+	public void onEnable() {
+		setInstance(this);
+		plugin = this;
+		Bukkit.getConsoleSender().sendMessage(" ");
+		Bukkit.getConsoleSender().sendMessage("§aShadowMC Iniciado.");
+		Bukkit.getConsoleSender().sendMessage(" ");
+
+		Bukkit.getPluginManager().registerEvents(new Format(), this);
+		Bukkit.getPluginManager().registerEvents(new JoinEvents(), this);
+		Bukkit.getPluginManager().registerEvents(new JoinMessage(), this);
+		Bukkit.getPluginManager().registerEvents(new QuitEvents(), this);
+		Bukkit.getPluginManager().registerEvents(new WithoutRain(), this);
+		Bukkit.getPluginManager().registerEvents(new BlockBreakEvents(), this);
+		Bukkit.getPluginManager().registerEvents(new EntityDamageEvent(), this);
+		Bukkit.getPluginManager().registerEvents(new FoodLevelChangeEvent(), this);
+		Bukkit.getPluginManager().registerEvents(new HealthScale(), this);
+		Bukkit.getPluginManager().registerEvents(new EventsGroups(), this);
+		Bukkit.getPluginManager().registerEvents(new Events(), this);
+		Bukkit.getPluginManager().registerEvents(new Contacts(), this);
+		Bukkit.getPluginManager().registerEvents(new PlayerCommandPreprocessEvent(), this);
+		Bukkit.getPluginManager().registerEvents(new ServerSelector(), this);
+
+		getCommand("login").setExecutor(new CommandLogin());
+		getCommand("register").setExecutor(new CommandRegister());
+		getCommand("changepassword").setExecutor(new CommandChangePassword());
+		getCommand("contatos").setExecutor(new Contacts());
+		getCommand("money").setExecutor(new commandsMoney());
+	}
+
+	public void onDisable() {
+		Bukkit.getConsoleSender().sendMessage(" ");
+		Bukkit.getConsoleSender().sendMessage("§cShadowMC Desligado.");
+		Bukkit.getConsoleSender().sendMessage(" ");
+	}
+
+	public static Main getInstance() {
+		return instance;
+	}
+
+	public static void setInstance(Main instance) {
+		Main.instance = instance;
+	}
+	
+	public static Main getPlugin() {
+		return JavaPlugin.getPlugin(Main.class);
+	}
+	private static Main plugin;
+	
+	private Map<UUID, Double> money = new HashMap<>();
+	
+	
+	public Map<UUID, Double> getMoney() {
+		return money;
+	}
+	public static Main getInstance1() {
+		return plugin;
+	}
+}
